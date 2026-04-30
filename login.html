@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CCMS Login</title>
+
+<style>
+body {
+    margin:0;
+    font-family:Arial;
+    background:url('https://images.unsplash.com/photo-1523240795612-9a054b0db644') no-repeat center/cover;
+    height:100vh;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+}
+
+.box {
+    background:rgba(255,255,255,0.9);
+    padding:30px;
+    width:300px;
+    border-radius:10px;
+    text-align:center;
+}
+
+input {
+    width:90%;
+    padding:10px;
+    margin:10px 0;
+}
+
+button {
+    width:100%;
+    padding:10px;
+    background:#667eea;
+    color:white;
+    border:none;
+    border-radius:5px;
+    cursor:pointer;
+}
+
+.toggle {
+    color:blue;
+    cursor:pointer;
+}
+</style>
+</head>
+
+<body>
+
+<div class="box">
+<h2 id="title">Login</h2>
+
+<input id="username" placeholder="Username">
+<input type="password" id="password" placeholder="Password">
+
+<button onclick="submitForm()">Submit</button>
+
+<p id="msg"></p>
+
+<p class="toggle" id="toggleText" onclick="switchForm()">
+New user? Register
+</p>
+</div>
+
+<script>
+
+let loginMode = true;
+
+// SWITCH LOGIN / REGISTER
+function switchForm(){
+    loginMode = !loginMode;
+
+    document.getElementById("title").innerText =
+        loginMode ? "Login" : "Register";
+
+    document.getElementById("toggleText").innerText =
+        loginMode ? "New user? Register" : "Already have an account? Login";
+
+    document.getElementById("msg").innerText="";
+}
+
+// MAIN FUNCTION
+function submitForm(){
+
+    let u = document.getElementById("username").value.trim();
+    let p = document.getElementById("password").value.trim();
+
+    if(!u || !p){
+        document.getElementById("msg").innerText="Fill all fields";
+        return;
+    }
+
+    let users = JSON.parse(localStorage.getItem("users") || "[]");
+
+    if(loginMode){
+
+        let found = users.find(x => x.username === u && x.password === p);
+
+        if(found){
+
+            // ✅ SAVE USER
+            localStorage.setItem("username", u);
+
+            // ✅ REDIRECT WITH USER (FINAL FIX)
+            window.location.href = "home.html?user=" + encodeURIComponent(u);
+
+        } else {
+            document.getElementById("msg").innerText="Invalid credentials";
+        }
+
+    } else {
+
+        let exists = users.find(x => x.username === u);
+
+        if(exists){
+            document.getElementById("msg").innerText="User already exists";
+            return;
+        }
+
+        users.push({username:u, password:p});
+        localStorage.setItem("users", JSON.stringify(users));
+
+        document.getElementById("msg").innerText="Registered! Now login";
+
+        // AUTO SWITCH BACK TO LOGIN
+        loginMode = true;
+        document.getElementById("title").innerText = "Login";
+        document.getElementById("toggleText").innerText = "New user? Register";
+    }
+}
+
+</script>
+
+</body>
+</html>

@@ -1,0 +1,240 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>CCMS Dashboard</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', sans-serif;
+}
+
+body{
+    background:#f4f6f9;
+}
+
+/* NAVBAR */
+.navbar{
+    background:linear-gradient(135deg,#667eea,#764ba2);
+    color:white;
+    padding:15px 20px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+}
+
+.profile{
+    cursor:pointer;
+}
+
+/* PROFILE PANEL */
+.profile-panel{
+    position:fixed;
+    top:0;
+    right:-300px;
+    width:300px;
+    height:100%;
+    background:white;
+    box-shadow:-2px 0 10px rgba(0,0,0,0.2);
+    padding:20px;
+    transition:0.3s;
+}
+
+.profile-panel.active{
+    right:0;
+}
+
+/* SEARCH */
+.search-box{
+    margin:20px;
+    text-align:center;
+}
+
+.search-box input{
+    width:80%;
+    padding:10px;
+    border-radius:20px;
+    border:1px solid #ccc;
+}
+
+/* SECTION TITLE */
+.section{
+    margin:20px;
+}
+
+/* CARDS */
+.container{
+    display:flex;
+    flex-wrap:wrap;
+    justify-content:center;
+}
+
+.card{
+    background:white;
+    width:230px;
+    margin:15px;
+    border-radius:15px;
+    overflow:hidden;
+    box-shadow:0 5px 15px rgba(0,0,0,0.1);
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.card:hover{
+    transform:scale(1.05);
+}
+
+.card img{
+    width:100%;
+    height:130px;
+}
+
+.card h4{
+    margin:10px;
+}
+
+/* QUICK ACTIONS */
+.actions{
+    display:flex;
+    justify-content:center;
+    gap:20px;
+    margin:20px;
+}
+
+.actions button{
+    padding:10px 20px;
+    border:none;
+    border-radius:8px;
+    background:#667eea;
+    color:white;
+    cursor:pointer;
+}
+
+/* BOTTOM NAV */
+.bottom-nav{
+    position:fixed;
+    bottom:0;
+    width:100%;
+    background:white;
+    display:flex;
+    justify-content:space-around;
+    padding:10px;
+    box-shadow:0 -2px 10px rgba(0,0,0,0.1);
+}
+
+.bottom-nav div{
+    text-align:center;
+    cursor:pointer;
+}
+
+</style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<div class="navbar">
+    <h2>CCMS</h2>
+    <div class="profile" onclick="toggleProfile()">👤</div>
+</div>
+
+<!-- PROFILE PANEL -->
+<div class="profile-panel" id="profilePanel">
+    <h3>Profile</h3>
+    <p><b>User:</b> <span id="user"></span></p>
+    <br>
+    <button onclick="logout()">Logout</button>
+</div>
+
+<!-- SEARCH -->
+<div class="search-box">
+    <input type="text" placeholder="Search courses...">
+</div>
+
+<!-- QUICK ACTIONS -->
+<div class="actions">
+    <button onclick="goAssignments()">Assignments</button>
+    <button onclick="goQuiz()">Quiz</button>
+</div>
+
+<!-- COURSES -->
+<div class="section">
+    <h3 style="margin-left:20px;">Your Courses</h3>
+</div>
+
+<div class="container">
+
+<div class="card" onclick="openCourse('Python')">
+    <img src="https://cdn-icons-png.flaticon.com/512/5968/5968350.png">
+    <h4>Python Programming</h4>
+</div>
+
+<div class="card" onclick="openCourse('Java')">
+    <img src="https://cdn-icons-png.flaticon.com/512/226/226777.png">
+    <h4>Java Development</h4>
+</div>
+
+<div class="card" onclick="openCourse('Web')">
+    <img src="https://cdn-icons-png.flaticon.com/512/732/732212.png">
+    <h4>Web Development</h4>
+</div>
+
+</div>
+
+<!-- BOTTOM NAV -->
+<div class="bottom-nav">
+    <div onclick="location.reload()">🏠<br>Home</div>
+    <div onclick="goAssignments()">📂<br>Assignments</div>
+    <div onclick="goQuiz()">📝<br>Quiz</div>
+    <div onclick="toggleProfile()">👤<br>Profile</div>
+</div>
+
+<script>
+
+/* GET USER */
+function getUser(){
+    let params = new URLSearchParams(window.location.search);
+    return params.get("user") || localStorage.getItem("username");
+}
+
+window.onload = function(){
+    let user = getUser();
+
+    if(!user){
+        window.location.href="login.html";
+    } else {
+        document.getElementById("user").innerText = user;
+        localStorage.setItem("username", user);
+    }
+}
+
+/* PROFILE */
+function toggleProfile(){
+    document.getElementById("profilePanel").classList.toggle("active");
+}
+
+/* LOGOUT */
+function logout(){
+    localStorage.removeItem("username");
+    window.location.href="login.html";
+}
+
+/* NAVIGATION */
+function openCourse(name){
+    window.location.href = "course.html?course=" + name;
+}
+
+function goAssignments(){
+    window.location.href = "assignment.html";
+}
+
+function goQuiz(){
+    window.location.href = "quiz.html";
+}
+
+</script>
+
+</body>
+</html>

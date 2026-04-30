@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Course</title>
+
+<style>
+body{font-family:Arial;background:#f4f6f9;margin:0;}
+.header{background:#667eea;color:white;padding:15px;}
+.container{padding:20px;}
+.card{
+    background:white;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="header">
+    <h2 id="courseTitle"></h2>
+</div>
+
+<div class="container">
+    <div class="card">📄 Notes PDF</div>
+    <div class="card">🎥 Video Lecture</div>
+    <div class="card">📝 Practice Questions</div>
+</div>
+
+<script>
+let params = new URLSearchParams(window.location.search);
+let course = params.get("course");
+
+document.getElementById("courseTitle").innerText = course + " Course";
+</script>
+
+</body>
+</html>

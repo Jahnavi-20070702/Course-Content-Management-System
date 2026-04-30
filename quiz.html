@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Quiz</title>
+
+<style>
+body{font-family:Arial;background:#f4f6f9;}
+.container{padding:20px;}
+.question{
+    background:white;
+    padding:15px;
+    margin:10px 0;
+    border-radius:10px;
+}
+button{padding:10px;margin-top:10px;}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Quiz</h2>
+
+<div class="question">
+<p>1. Python is?</p>
+<input type="radio" name="q1" value="a"> Language<br>
+<input type="radio" name="q1" value="b"> Hardware<br>
+</div>
+
+<div class="question">
+<p>2. HTML stands for?</p>
+<input type="radio" name="q2" value="a"> Hyper Text Markup Language<br>
+<input type="radio" name="q2" value="b"> High Text Machine Language<br>
+</div>
+
+<button onclick="submitQuiz()">Submit</button>
+
+<h3 id="result"></h3>
+
+</div>
+
+<script>
+
+function submitQuiz(){
+    let score = 0;
+
+    if(document.querySelector('input[name="q1"]:checked')?.value==="a") score++;
+    if(document.querySelector('input[name="q2"]:checked')?.value==="a") score++;
+
+    document.getElementById("result").innerText = "Score: " + score + "/2";
+}
+
+</script>
+
+</body>
+</html>

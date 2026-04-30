@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>Assignments</title>
+
+<style>
+body{font-family:Arial;background:#f4f6f9;}
+.container{padding:20px;}
+input,button{padding:10px;margin:5px;}
+.card{
+    background:white;
+    padding:10px;
+    margin:10px 0;
+    border-radius:8px;
+}
+</style>
+</head>
+
+<body>
+
+<div class="container">
+<h2>Assignments</h2>
+
+<input id="title" placeholder="Assignment Title">
+<input id="file" placeholder="File Name">
+<button onclick="submit()">Submit</button>
+
+<h3>Submitted</h3>
+<div id="list"></div>
+
+</div>
+
+<script>
+
+let assignments = JSON.parse(localStorage.getItem("assignments") || "[]");
+
+function submit(){
+    let t = document.getElementById("title").value;
+    let f = document.getElementById("file").value;
+
+    if(!t || !f) return alert("Fill all fields");
+
+    assignments.push({title:t,file:f});
+    localStorage.setItem("assignments", JSON.stringify(assignments));
+
+    display();
+}
+
+function display(){
+    let list = document.getElementById("list");
+    list.innerHTML="";
+
+    assignments.forEach(a=>{
+        list.innerHTML += `<div class="card">${a.title} - ${a.file}</div>`;
+    });
+}
+
+display();
+
+</script>
+
+</body>
+</html>
